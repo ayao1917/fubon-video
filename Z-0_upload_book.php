@@ -29,13 +29,16 @@ $book_type = $video_book['TYPE'];
 $word_id = $video_book['WORD_BOOK'];
 $guide_id = $video_book['GUIDE_BOOK'];
 $tech_id = $video_book['TECH_BOOK'];
+$pres_id = $video_book['PRES_BOOK'];
 $word_file = __FDATA_PATH__."/books/$word_id.pdf";
 $guide_file = __FDATA_PATH__."/books/$guide_id.pdf";
 $tech_file = __FDATA_PATH__."/books/$tech_id.pdf";
+$pres_file = __FDATA_PATH__."/books/$pres_id.pdf";
 
 $content1 = "目前無檔案";
 $content2 = "目前無檔案";
 $content3 = "目前無檔案";
+$content4 = "目前無檔案";
 
 if (file_exists($word_file)) {
     $book = $db->loadBook($word_id);
@@ -50,6 +53,11 @@ if (file_exists($guide_file)) {
 if (file_exists($tech_file)) {
     $book = $db->loadBook($tech_id);
     $content3 = $book['TITLE'];
+}
+
+if (file_exists($pres_file)) {
+    $book = $db->loadBook($pres_id);
+    $content4 = $book['TITLE'];
 }
 
 ?>
@@ -105,6 +113,8 @@ if (file_exists($tech_file)) {
         <input type="radio" name="radio-1" id="radio-2" onclick="onChangeType(1)" <?php if ($book_type == 1) echo "checked"?>>
         <label for="radio-3">教戰手冊</label>
         <input type="radio" name="radio-1" id="radio-3" onclick="onChangeType(2)" <?php if ($book_type == 2) echo "checked"?>>
+        <label for="radio-4">簡報</label>
+        <input type="radio" name="radio-1" id="radio-4" onclick="onChangeType(3)" <?php if ($book_type == 3) echo "checked"?>>
     </fieldset>
 
     <br/>
@@ -119,7 +129,7 @@ if (file_exists($tech_file)) {
                     <input name="BookFile" type="file" />
                     <input name="id" type="hidden" value="<?php echo $video_id ?>" />
                     <input name="target" type="hidden" value="WORD_BOOK" />
-                    <input type="submit"  id="SubmitButton1" value="開始上傳學員手冊" />
+                    <input type="submit" id="SubmitButton1" value="開始上傳學員手冊" />
                 </form>
             </td>
             <td>
@@ -127,7 +137,7 @@ if (file_exists($tech_file)) {
                     <input name="BookFile" type="file" />
                     <input name="id" type="hidden" value="<?php echo $video_id ?>" />
                     <input name="target" type="hidden" value="GUIDE_BOOK" />
-                    <input type="submit"  id="SubmitButton2" value="開始上傳指導手冊" />
+                    <input type="submit" id="SubmitButton2" value="開始上傳指導手冊" />
                 </form>
             </td>
         </tr>
@@ -139,7 +149,19 @@ if (file_exists($tech_file)) {
                     <input name="BookFile" type="file" />
                     <input name="id" type="hidden" value="<?php echo $video_id ?>" />
                     <input name="target" type="hidden" value="TECH_BOOK" />
-                    <input type="submit"  id="SubmitButton3" value="開始上傳教戰手冊" />
+                    <input type="submit" id="SubmitButton3" value="開始上傳教戰手冊" />
+                </form>
+            </td>
+        </tr>
+        <tr class="type3"><td>簡報</td></tr>
+        <tr class="type3"><td><div id="output4"><?php echo $content4; ?></div></td></tr>
+        <tr class="type3">
+            <td>
+                <form action="ajax/Z-0/processuploadbook.php" method="post" enctype="multipart/form-data" id="UploadForm4">
+                    <input name="BookFile" type="file" />
+                    <input name="id" type="hidden" value="<?php echo $video_id ?>" />
+                    <input name="target" type="hidden" value="PRES_BOOK" />
+                    <input type="submit" id="SubmitButton4" value="開始上傳簡報" />
                 </form>
             </td>
         </tr>
@@ -152,15 +174,23 @@ if (file_exists($tech_file)) {
         if ($("#radio-1").is(':checked')) {
             $(".type1").hide();
             $(".type2").hide();
+            $(".type3").hide();
             currentType = 0;
         } else if ($("#radio-2").is(':checked')) {
             $(".type1").show();
             $(".type2").hide();
+            $(".type3").hide();
             currentType = 1;
         } else if ($("#radio-3").is(':checked')) {
             $(".type1").hide();
             $(".type2").show();
-            currentType = 1;
+            $(".type3").hide();
+            currentType = 2;
+        } else if ($("#radio-4").is(':checked')) {
+            $(".type1").hide();
+            $(".type2").hide();
+            $(".type3").show();
+            currentType = 3;
         }
     });
 
@@ -168,12 +198,19 @@ if (file_exists($tech_file)) {
         if (type == 0) {
             $(".type1").hide();
             $(".type2").hide();
+            $(".type3").hide();
         } else if (type == 1) {
             $(".type1").show();
             $(".type2").hide();
+            $(".type3").hide();
         } else if (type == 2) {
             $(".type1").hide();
             $(".type2").show();
+            $(".type3").hide();
+        } else if (type == 3) {
+            $(".type1").hide();
+            $(".type2").hide();
+            $(".type3").show();
         }
         currentType = type;
         updateBookType(type);
