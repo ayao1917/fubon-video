@@ -1,0 +1,82 @@
+﻿
+#content{
+	height:100%;
+	position:absolute;
+	border: 0px solid red;
+	left: 30px;
+	right: 30px;
+}
+#LogListContainer{
+    width: 90%;
+	margin: 50px auto;
+	border: 0px solid red;
+}
+
+.clear {
+    clear:both;
+}
+
+#query {
+
+    display: none;
+    overflow:hidden;
+
+    height: 100px;
+    width: 300px;
+
+}
+
+#filter {
+    position:relative;
+    width: 1070px;
+    background-color:#EEE;
+}
+
+#filter li {
+    float:left;
+    height: 100px;
+    width:210px;
+    margin: 10px 10px;
+    padding: 10px 10px;
+}
+select {
+   width:200px;
+
+}
+.condition {
+    height: 100px;
+    border: 3px dashed #AAA;
+}
+
+#LoadRecordsButton {
+    margin: 0 auto;
+}
+
+
+.jtable-input-field-container {
+	clear:both;
+}
+.jtable-input {
+	clear:both;
+
+}
+
+#Edit-AUTHOR, #Edit-TITLE {
+	
+	width:400px;
+}
+
+.jtable-radio-input {
+	float:left;
+    margin: 1px 5px;
+}
+
+.jtable-input:after {
+
+content: ".";
+display: block;
+height: 0;
+clear: both;
+visibility: hidden;
+
+}

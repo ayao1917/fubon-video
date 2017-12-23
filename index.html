@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+
+    <title>富邦新視界管理系統</title>   
+
+    <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.10.3.custom.min.css"> 
+    
+        
+    <style>
+        
+        body {
+            background-color: #CECECE;
+            margin:0;
+        }
+
+        #message {
+            color:red;
+        }
+        #download_list span img {
+
+           width:45%;
+           cursor:pointer;
+
+        }
+        .progress {
+            left:8%;
+            right:8%;
+            bottom:25%;
+            height:5%;
+            position:absolute;
+            background:#C4D0DA;
+        }
+        .ui-progressbar-value{
+            background:#36A7E6;
+        }
+        #t {
+            background-color:#ccc;
+            border: solid 3px #333;
+            border-radius: 20px;
+            font-size: 1.1em;
+        }
+        
+        ::-webkit-scrollbar {
+                width: 12px;
+            }
+             
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+            border-radius: 10px;
+        }
+         
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+        }
+        
+        #wrapper{
+            visibility:hidden;
+            position:absolute;
+            font-family:SimHei, KaiTi, Microsoft JhengHei, DFKai-sb, PMingLiU, MingLiU, serif;
+        }
+        
+        #top {
+            position: absolute;
+            top:0;
+/*
+            background: url(images/top_bg_pattern.png) repeat-x;
+*/
+background-color: #EDEDED;
+/*
+            text-align:center;
+*/
+            height:45px;
+            
+            z-Index:10;
+            left:0;
+            right:0;
+        }
+        
+        #home_button {
+            cursor:pointer;   
+        }
+        #menu {
+            position: absolute;
+            top:48px;
+            bottom:10px;
+            width:150px;
+/*
+            background: -webkit-linear-gradient(top, #97ddc7 0%,#56adbe 100%); /* Chrome10+,Safari5.1+ */   
+background-color: #EDEDED;
+/*
+            box-shadow: 5px 0px 15px #888;
+*/
+            margin:0;
+            z-Index:10;
+        }
+        #menu ul {
+            margin:0px 0px;
+            padding-left:1px;
+            font-size:0;
+            list-style-type: none;
+        }
+        #menu img {
+            width: 144px;
+            cursor:pointer;
+        }
+
+        #dialog-confirm {
+            display:none;
+        }
+            
+        #main {
+            margin:0;
+            border: solid 0px red;
+            background-color:#EDEDED;
+
+            position:absolute;
+            left: 153px;
+            top:48px;
+            bottom:10px;
+            right:5px;
+            margin-left:0;
+        }
+        #downloadpanel {
+display:none;
+            margin:0;
+            background-color:#EDEDED;
+
+            position:absolute;
+            left: 153px;
+            top:48px;
+            bottom:10px;
+            right:5px;
+            margin-left:0;
+        }
+        #downloadlist {
+            position:absolute;
+            left: 15px;
+            top:70px;
+            bottom:5px;
+            right:15px;
+        }
+        #download_header {
+            position:absolute; 
+            height:50px; left:10px; right:10px; top: 10px; 
+            background-color: #4E4E4E;
+        }
+        #download_icon {
+            position:absolute; 
+            height:40px; left:10px; top: 8px; 
+        }
+        #download_txt {
+            position:absolute; 
+            height:30px; left:40px; top: 12px; 
+        }
+
+
+        #viewer {
+            display:none;
+            position:absolute;
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #4C4C4C), color-stop(1, #020202));
+            width:80%; height:80%; 
+            padding: 30px;  
+            border-radius:10px"
+        }
+        
+
+    </style>
+
+
+</head>
+        
+<body>
+    <div id="login" style="position:absolute; width:600px; height: 360px; background-color:#EEEFEF; border-radius:15px;display:none">
+         <img src="images/top/fubonvision_logo2.png" style="position:absolute; left:170px; height:50px;top:20px;"/>
+
+         <img src="images/login/account.png" style="position:absolute; left:40px;top:90px;"/> 
+         <img src="images/login/password.png" style="position:absolute; left:40px;top:150px;"/>
+         <img src="images/login/validatecode.png" style="position:absolute; left:40px;top:210px;"/>
+
+         <img id="validateImage" style="position:absolute; border: dashed 2px #ccc; left:170px; width:108px; height:52px; top:210px" />
+         <img id="changecode" src="images/login/change_code.png" style="position:absolute; width:145px; left: 420px; top:220px;cursor:pointer " />
+
+         <img id="btn" src="images/login/login.png" style="position:absolute; width:145px; right: 10%; bottom:5%;cursor:pointer;" />
+
+         <input id="user" name="user" type="text" style="position: absolute; right:30px; top:100px;width:400px; font-size:20pt"/>
+         <input id="pass" name="pass" type="password" style="position: absolute; right:30px; top:160px;width:400px; font-size:20pt"/>
+         <input id="validateCode" name="validateCode" type="text" style="position: absolute; left:290px; top:220px; width:120px; font-size:20pt" />
+         <span id="message" style="position:absolute; left: 10px; bottom:25px; width: 360px; height: 60px; border:solid 0px red; font-size:16pt"> &nbsp </span>
+
+    </div>
+
+    <div id="dialog-confirm" title="刪除本影片嗎?">
+    </div>
+
+</body>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.lightbox_me.js"></script>
+
+    <script type="text/javascript">
+        
+                
+        $(window).load(function() {
+           if (location.protocol === "https:") {
+               //location.href = 'http://'+location.hostname+(location.port ? ':'+location.port: '');
+           }
+
+           prepareLogin();
+           showLogin();
+//                    $("#wrapper").css('visibility', "visible");
+
+            onWindowSize();
+
+            $(window).resize(function() {
+                onWindowSize();
+            });
+        });
+
+       function showLogin() {
+
+            $("#changecode").trigger("click");
+
+            $("#user, #pass, #validateCode").val('');
+
+            $("#login").lightbox_me({
+                closeClick: false,
+                closeEsc: false,
+                centered: true,
+                overlayCSS: {background: 'black', opacity: .8},
+                onLoad: function() { 
+                    $('#user').focus()
+                }
+            });
+         
+       }
+       function showValidateImage() {
+            var validateImageURL = 'ajax/main/validateImg_production.php?p='+Math.random();
+
+            $("#validateImage")
+            .one('load', function() { //Set something to run when it finishes loading
+                $(this).fadeIn(); //Fade it in when loaded
+            })
+            .attr('src', validateImageURL) //Set the source so it begins fetching
+            .each(function() {
+                //Cache fix for browsers that don't trigger .load()
+                if(this.complete) $(this).trigger('load');
+            });
+       }
+    
+       function prepareLogin() {
+
+//            $("#validateImage").attr('src', validateImageURL) //Set the source so it begins fetching
+
+            $("#validateImage").attr('src', "images/login/loading.png");
+//            showValidateImage();
+            $(document).ajaxStart(function() {
+                $("#message").html('登入中..');
+                $( "#message" ).show();
+            });
+            $("#user").focus();
+            $('#user').keypress(function(e) {
+                code= (e.keyCode ? e.keyCode : e.which);
+                if (code == 13) {
+                    if ($("#user").val()!=null) $("#pass").focus().select();
+                   e.preventDefault();
+                }
+            });
+            $('#pass').keypress(function(e) {
+                code= (e.keyCode ? e.keyCode : e.which);
+                if (code == 13) { 
+                    if ($("#pass").val()!=null) doLogin();
+                    if ($("#pass").val()!=null) $("#validateCode").focus().select();
+                   e.preventDefault();
+                }
+            });
+            $('#validateCode').keypress(function(e) {
+                code= (e.keyCode ? e.keyCode : e.which);
+                if (code == 13) {
+                    if ($("#validateCode").val()!=null) doLogin();
+                   e.preventDefault();
+                }
+            });
+
+            $("#btn").click(function() { doLogin()});
+
+            $("#changecode").click(function() {
+                $("#validateImage").attr('src', "images/login/loading.png");
+                showValidateImage(); 
+            });
+        }
+        function doLogin() {
+
+            user =$('#user').val();
+            pass =$('#pass').val();
+            validateCode =$('#validateCode').val();
+
+            var NET_SessionId;
+
+            $.post("ajax/main/adminLogin.php", {user: user, pass: pass, validateCode: validateCode}, function (data) {
+                response = data.result;
+                message = data.message;
+
+                if(response == 'success') {
+                    window.location.href = "m.php";
+/*
+                    message = '登入成功';
+                    $('#message').hide().html(message).fadeIn("fast", function() {  window.setTimeout(function() { $('#message').fadeOut("slow"); }, 3000); });
+                    $("#login").trigger('close');
+                    $("#wrapper").css('visibility', "visible");
+                    $("#query").focus();
+*/
+                } else {
+                    $("#changecode").trigger("click");
+                    $('#message').hide().html(message).fadeIn("fast", function() {  window.setTimeout(function() { $('#message').fadeOut("slow"); }, 3000); });
+                    $("#user").focus().select();
+                    
+                }
+            }).fail(function() {
+                message = '連線失敗';
+                $('#message').hide().html(message).fadeIn("fast", function() {  window.setTimeout(function() { $('#message').fadeOut("slow"); }, 3000); });
+            });
+        }
+
+        function onWindowSize() {
+		
+            w = $(window).width();
+            h = $(window).height();
+				
+            if (w<900) w=900;
+            if (h<600) h=600;
+
+            $('#wrapper').width(w);
+            $('#wrapper').height(h);
+          //  alert(w+'x'+h);
+        }
+        
+    </script>
+
+</html>
+

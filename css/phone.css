@@ -1,0 +1,300 @@
+html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+body {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
+    -webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-o-user-select: none;
+user-select: none;
+    
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+.loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -64px;
+    margin-top: -64px;
+}
+#wrapper {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-family: SimHei, KaiTi, Microsoft JhengHei, DFKai-sb, PMingLiU, MingLiU, serif;
+}
+#top {
+    position: absolute;
+    top: 0;
+    background-color: #EDEDED;
+    height: 45px;
+    z-Index: 10;
+    left: 0;
+    right: 0;
+}
+#query_container input {
+ width: 99%;
+}
+
+.menu-item {
+    display: table-cell;
+    line-height:50px;
+    height: 50px;
+    margin:0;
+    cursor:pointer;
+}
+.menu-item img {
+    margin-top:8px;
+    height:40px;
+}
+
+#categories::-webkit-scrollbar {
+    display:none;
+}
+#tag::-webkit-scrollbar {
+    display:none;
+}
+
+.scrolling {
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+/* avoid blank issues on ios -webkit-overflow-scrolling: touch;  */
+*:not(html) {
+    -webkit-transform: translate3d(0, 0, 0);
+}
+
+.scrolling::-webkit-scrollbar {
+    display:none;
+}
+#viewer {
+    display:none;
+    position:absolute;
+    background-color:#000;
+/*
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #4C4C4C), color-stop(1, #020202));
+  */  
+    width:100%; height:100%;
+    padding: 0px;
+}
+
+        #home_banners {
+/*
+            position:absolute; top:5px; left:0;  right:0; top:0; 
+*/
+/*
+height: 200px; 
+*/
+
+text-align:center; overflow:hidden; list-style-type: none;
+        }
+        
+        #home_banner_slider {
+            position:relative; margin: 1px auto; 
+            height:98%;
+            width:100%;
+            text-decoration:none; border:solid 0px green;
+        }
+
+        .flex-control-nav {
+            bottom: 10px;
+            position: absolute;
+            left:10px;
+            right: 10px;
+            margin:0;
+            text-align: center;
+            width: auto;
+            z-index: 999;
+            border:solid 0px red;
+        }
+
+        .play_button {
+            background-image: url('../images/play_normal.png');
+            background-repeat:  no-repeat;
+            background-position: center center;
+            position: absolute;
+            display:none;
+/*            left:10px;
+            right:10px;*/
+            top:50%;
+            left:50%;
+            margin-left:-30px;
+            margin-top:-30px;
+            width: 59px;
+            height: 55px;
+            
+            z-Index:100;
+            cursor:pointer;
+        }
+        .play_button:hover {
+            background-image: url('../images/play_over.png');
+        }
+
+        .prev {
+            position: absolute;
+            left: 10%;
+            top:47%;
+            width: 40px;
+            height: 40px;
+            z-Index:1000;
+            cursor:pointer;
+        }
+        .next {
+            position: absolute;
+            right: 10%;
+            top:47%;
+            width: 40px;
+            height: 40px;
+            z-Index:1000;
+            cursor:pointer;
+        }
+
+        .category_button {
+            width:142px; height:42px;
+            display:inline-block;
+        }
+        .tag_button {
+            width:150px; height:50px;
+            display:inline-block;
+        }
+
+
+        .v_item {
+            height:120px; 
+            width:100%; 
+            margin: 5px; 
+            position:relative; 
+            border-bottom: solid 3px #aaa;
+        }
+        .v_cover {
+            width:80px; 
+            top: 0; bottom: 0; left: 0; 
+            position:absolute; 
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+        }
+        .v_desc {
+            position:absolute; 
+            left:85px; right:55px; top:10px; bottom:10px; 
+            overflow:hidden
+        }
+        .v_action {
+            width:50px; 
+            top: 0; bottom: 0; right: 0; 
+            position:absolute; 
+            background-image: url(../images/action.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+        }
+/*
+#menu-home {
+    background-image: url(../images/phone/bottom_banner/bottom_banner_icon01_normal.png);
+}
+#menu-category {
+    background-image: url(../images/phone/bottom_banner/bottom_banner_icon02_normal.png);
+}
+#menu-tag {
+    background-image: url(../images/phone/bottom_banner/bottom_banner_icon03_normal.png);
+}
+#menu-download {
+    background-image: url(../images/phone/bottom_banner/bottom_banner_icon04_normal.png);
+}
+*/
+/*
+#video_buttons {
+    height: 40px;
+    position: absolute;
+    left: 0px;
+    right: 0;
+    bottom: 215px;
+    text-align: center;
+    background-color: #EDEDED;
+}
+*/
+#video_content {
+    background-color: #eee;
+}
+.download_item {
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: inline-block;
+}
+
+.download_controler{
+    text-align:center;
+    position:absolute;
+    left:25%; right:0px; bottom:10px;
+    height: 30px;
+}
+.download_controler div {
+
+   /*width:45%;*/
+   width:60px;
+   height:23px;
+   display:inline-block;
+   cursor:pointer;
+
+}
+.progress {
+    display:inline-block;
+    width:70px;
+    height:10px;
+    bottom:20px;
+    position:relative;  
+    /*
+    bottom:10px;
+    left:5%; 
+    position:absolute;
+    */
+    background:#C4D0DA;
+}
+.ui-progressbar-value{
+    background:#36A7E6;
+}
+
+#video_buttons ul {
+    margin: 0 auto;
+    width: 100%;
+    height:100%;
+    border:solid 1px red;
+    position: relative;
+    margin: 2px auto;
+    list-style-type: none;
+}
+#video_buttons li {
+    float: left;
+    border:solid 1px red;
+    margin: 1px 1px;
+}
+#video_buttons img {
+    position: relative;
+    margin-top:5px;
+   /* height: 30px;*/
+    cursor: pointer;
+}
+.inDownload:after {
+    content: url(../images/downloads.png);
+    position:absolute; width:31px; height:31px; right:0px; top: 0px; z-index:100;
+}

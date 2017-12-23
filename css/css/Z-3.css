@@ -1,0 +1,42 @@
+﻿
+#content{
+	height:100%;
+	position:absolute;
+	border: 0px solid red;
+	left: 30px;
+	right:30px;
+}
+#BannerListContainer{
+    width: 90%;
+	margin: 50px auto;
+	border: 0px solid red;
+}
+
+
+.jtable-input-field-container {
+	clear:both;
+}
+.jtable-input {
+	clear:both;
+
+}
+
+#Edit-AUTHOR, #Edit-TITLE {
+	
+	width:400px;
+}
+
+.jtable-radio-input {
+	float:left;
+    margin: 1px 5px;
+}
+
+.jtable-input:after {
+
+content: ".";
+display: block;
+height: 0;
+clear: both;
+visibility: hidden;
+
+}

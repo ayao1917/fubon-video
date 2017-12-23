@@ -1,0 +1,74 @@
+#area1, #area2, #area0 { 
+    border: dashed 3px #999; position:absolute; width: 45%; top: 80px; bottom: 20px; overflow: auto;  min-height: 12em; margin:10px; 
+}
+
+#area1 {
+    left:10px;
+}
+#area2 {
+    left:50%;
+}
+
+#area1 select, #area2 select {
+ 
+    margin-left:10px;
+}
+
+#area1 p, #area2 p, #area0 p { text-align:center;}
+
+#VideoListContainer, #VideoListContainer1, #VideoListContainer2 { 
+    border: solid 0px blue; height: 80%;  width: 40%; min-height: 12em; 
+} 
+.gallery.custom-state-active { background: #eee; }
+.gallery li { 
+    width: 220%; border: thin 1px blue; 
+    /*height:270px;*/ 
+    padding: 0.4em; margin: 0 0.4em 0.4em 1.5em; text-align: center; 
+}
+
+.ui-multiselect-all {display:none}
+.ui-multiselect-none {display:none}
+
+.gallery li h5 { margin: 0 0 0.4em; cursor: move; }
+.gallery li h4 { margin: 0 0 0.4em; font-size:1.4em; cursor: move; }
+.gallery li a { float: right; }
+.gallery li a.ui-icon-zoomin { float: left; }
+.gallery li img { width: 120px; cursor: move; }
+
+
+/*
+
+li {
+    background-color: #FFC;
+    height: 120px;
+    border: solid 1px #0A2;
+    cursor:pointer;
+    border: 3px dashed #ccc;
+}
+
+.cover {
+    width: 160px;
+    height: 90px;
+    border: 1px solid #999;
+    background-color: #fcfcfc;
+    padding: 4px;
+}
+*/
+
+/*
+li span{
+   text-align : center;
+   vertical-align : middle;
+   font-size: 12px;
+    border: 0px solid red;
+}
+*/
+
+.ui-state-default {
+    margin: 10px auto;
+    padding: 10px 10px;
+    border: 0px solid red;
+    width: 400px;
+
+}
+

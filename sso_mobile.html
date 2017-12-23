@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+
+    <title>富邦新視界</title>   
+
+    <link rel="stylesheet" href="css/ui/jquery-ui.min.css"> 
+        
+    <style type="text/css">
+        
+        body {
+            background-color: #CECECE;
+            background-color: #000;
+            margin:0;
+            font-size: 1.1em;
+        }
+
+    </style>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/StageWebViewBridge.js"></script>
+    <script src="js/config.js"></script>
+
+    <script type="text/javascript">
+        
+        var g_serverPort;
+        var g_width;
+        var g_height;
+        var g_id;
+        var g_sid;
+        var g_rank;
+        var g_unitcode;
+        var g_appVersion;
+        var syscode;
+        var tokenid;
+
+        var g_isPhone;
+        var g_today;
+        var random=Math.random();
+                
+        $(window).load(function() {
+
+             g_serverPort = window.location.port;
+
+             g_appVersion = getParameterByName('appVersion') ;
+             g_isPhone = (getParameterByName('phone')!="false"); 
+             g_today = getParameterByName('today')=="true";
+             g_width = parseInt(getParameterByName('w'))||$(window).width();
+             g_height = parseInt(getParameterByName('h'))||$(window).height();
+             syscode = getParameterByName('syscode') ;
+             tokenid = getParameterByName('tokenid') ;
+
+             
+             
+        });
+        function readyForDownload(data) {
+             if ((syscode==null) || (tokenid==null) || (syscode=="") || (tokenid=="")) {
+                 showMessage(1, "參數錯誤，請登入。", "OK");
+             } else {
+                 doSSO(syscode, tokenid);
+             }
+        }
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        function showLogin() {
+            var destination = (g_isPhone)? 'login_phone.html' : 'login_tablet.html'; 
+            destination += '?'+ g_today;
+            redirect(destination);
+        }
+        function redirect(url) {
+            window.location.href = url;
+        }
+
+        function doSSO(syscode, tokenid) {
+
+            var xhr = $.ajax({ 
+	        url: CONFIG.SERVER_ROOT+"ajax/main/checkSSO_y.php", 
+		type: 'get', 
+		dataType: 'jsonp', 
+		contentType: 'application/json', 
+		crossDomain: true, 
+		data: {syscode: syscode, tokenid: tokenid, isphone:g_isPhone, version:g_appVersion, p:random}, 
+                success: function (data) {
+                    response = data.result;
+                    message = data.message;
+
+                    showMessage(0);
+                    if(response == 'success') {
+                        showMessage(1, "驗證身份成功，載入程式中");
+
+if ((typeof StageWebViewBridge) != "undefined") StageWebViewBridge.call('userLogin', null, data.id);                                                                          
+
+
+                        var destination;
+                        if (g_isPhone) { 
+                            destination = CONFIG.SERVER_ROOT+"phone?p="+g_serverPort;
+                            if (g_width>g_height) { 
+                                tmp = g_width; g_width=g_height; g_height=tmp;
+                            }
+                        } else { 
+                            destination = CONFIG.SERVER_ROOT+"tablet?p="+g_serverPort;
+                            if (g_width<g_height) {
+                                tmp = g_width; g_width=g_height; g_height=tmp;
+                            }
+                        }
+
+                        destination += "&w="+g_width;
+                        destination += "&h="+g_height;
+                        if (data.id) destination += "&i="+data.id;
+//                        if (data.sid) destination += "&s="+data.sid;
+                        if (data.rank) destination += "&r="+data.rank;
+                        if (data.unitcode) destination += "&u="+data.unitcode;
+//                        if (data.name) destination += "&n="+data.name;
+
+
+if ((typeof StageWebViewBridge) != "undefined")  {
+
+		        StageWebViewBridge.call('loadURL', null, destination);                                                                          
+} else {
+                        redirect(destination);
+}
+
+                    } else {
+                        showMessage(1, "無法驗證身份，請重新登入。"+message, "OK");
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    showMessage(0);
+                    showMessage(1, "無法驗證身份，請重新登入", "OK");
+                }
+            });
+	    showMessage(1, "驗證身份中", xhr); 
+        }
+
+function showMessage(on_off, msg, xhr) {
+
+    if (on_off==1) {
+
+        show = typeof msg !== 'undefined' ? msg : '請稍候';
+        xhr = typeof xhr !== 'undefined' ? xhr : null; 
+
+        var buttons = {};
+       
+        if (xhr == "OK") {
+            buttons["確定"] = function() {showLogin();};
+        } else if (xhr != null) {
+            buttons["取消"] = function() {if ((typeof xhr.abort) == "function") xhr.abort();  showLogin();};
+        }
+
+        $("#dialog-confirm").html(show).dialog({
+            title: '訊息視窗',
+            resizable: false,
+            draggable: false,
+            closeOnEscape: false,
+            width:200,
+            height:200,
+            open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog || ui).hide(); $(".ui-dialog-titlebar-close", $(this).parent()).hide();},
+            modal: true,
+            buttons: buttons
+        });
+   } else {
+        $("#dialog-confirm").html('').dialog("close");
+   }
+}
+
+        function onKeyDown(code) {
+
+            if (code ==16777238) {
+                $("#dialog-confirm").html('').dialog({
+                    title: '確認離開?',
+                    resizable: false,
+                    height:140,
+                    width:250,
+                    modal: true,
+                    buttons:[
+                        {
+                            text:"是", 
+                            "id": "idYes", 
+                            click:function(){
+                                $( this ).dialog( "close" );
+                                StageWebViewBridge.call('exitApp');
+                            }
+                        },
+                        {
+                            text:"否", 
+                            "id": "idNo", 
+                            click:function(){
+                                showLogin();
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    ]
+                });
+            }
+
+        }
+        
+        
+    </script>
+</head>
+        
+<body>
+<div id="dialog-confirm"> </div>
+</body>
+
+</html>

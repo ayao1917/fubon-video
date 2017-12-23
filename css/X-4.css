@@ -1,0 +1,96 @@
+﻿
+#content{
+	height:100%;
+	position:absolute;
+	border: 0px solid red;
+	left: 0px;
+	right:0;
+}
+#LogListContainer{
+    width: 90%;
+	margin: 50px auto;
+	border: 0px solid red;
+}
+
+.clear {
+    clear:both;
+}
+
+#query {
+
+    display: hidden;
+    overflow:hidden;
+
+    height: 200px;
+    width: 300px;
+
+}
+
+#filter {
+    position:relative;
+    width: 1070px;
+    background-color:#EEE;
+}
+
+#filter li {
+    float:left;
+    height: 200px;
+    width:210px;
+    margin: 10px 10px;
+    padding: 10px 10px;
+}
+select {
+   width:200px;
+
+}
+.condition {
+    border: 2px dashed #AAA;
+    width: 200px;
+}
+
+#LoadRecordsButton {
+    margin: 0 auto;
+}
+
+
+.jtable-input-field-container {
+	clear:both;
+}
+.jtable-input {
+	clear:both;
+
+}
+
+#Edit-AUTHOR, #Edit-TITLE {
+	
+	width:400px;
+}
+
+.jtable-radio-input {
+	float:left;
+    margin: 1px 5px;
+}
+
+.jtable-input:after {
+
+content: ".";
+display: block;
+height: 0;
+clear: both;
+visibility: hidden;
+
+}
+
+  .ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+    height: 100px;
+  }
+

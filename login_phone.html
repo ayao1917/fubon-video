@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+
+    <title>富邦新視界</title>   
+
+    <link rel="stylesheet" href="css/ui/jquery-ui.min.css"> 
+        
+    <style>
+        
+        body {
+            background-color: #CECECE;
+            background-color: #000;
+            margin:0;
+/*
+   -webkit-transform: scale(0.5);
+   -webkit-transform-origin: 50% 200%;
+*/
+        }
+
+        #message {
+            color:red;
+        }
+
+        #download_list span {
+           text-align:center;
+        }
+        #download_list span img {
+           width:45%;
+           cursor:pointer;
+        }
+        #download_list span div {
+
+           /*width:45%;*/
+           width:60px;
+           height:23px;
+           display:inline-block;
+           cursor:pointer;
+
+        }
+.scrolling {
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translate3d(0, 0, 0); 
+}
+
+.scrolling::-webkit-scrollbar {
+    display:none;
+}
+
+.download_controler{
+    text-align:center;
+    position:absolute;
+    left:25%; right:0px; bottom:10px;
+    height: 30px;
+}
+.download_controler div {
+
+   /*width:45%;*/
+   width:60px;
+   height:23px;
+   display:inline-block;
+   cursor:pointer;
+
+}
+.progress {
+    display:inline-block;
+    width:70px;
+    height:10px;
+    bottom:20px;
+    position:relative;  
+    /*
+    bottom:10px;
+    left:5%; 
+    position:absolute;
+    */
+    background:#C4D0DA;
+}
+.ui-progressbar-value{
+    background:#36A7E6;
+}
+
+/*
+        .progress {
+            left:8%;
+            right:8%;
+            bottom:25%;
+            height:5%;
+            position:absolute;
+            background:#C4D0DA;
+        }
+        .ui-progressbar-value{
+            background:#36A7E6;
+        }
+*/
+        #t {
+            background-color:#ccc;
+            border: solid 3px #333;
+            border-radius: 20px;
+            font-size: 1.1em;
+        }
+        
+        ::-webkit-scrollbar {
+                width: 12px;
+            }
+             
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+            border-radius: 10px;
+        }
+         
+        ::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+        }
+        
+        #wrapper{
+            visibility:hidden;
+            position:absolute;
+            font-family:SimHei, KaiTi, Microsoft JhengHei, DFKai-sb, PMingLiU, MingLiU, serif;
+        }
+        
+        #top {
+            position: absolute;
+            top:0;
+/*
+            background: url(images/top_bg_pattern.png) repeat-x;
+*/
+background-color: #EDEDED;
+/*
+            text-align:center;
+*/
+            height:45px;
+            
+            z-Index:10;
+            left:0;
+            right:0;
+        }
+        
+        #home_button {
+            cursor:pointer;   
+        }
+
+        #dialog-confirm {
+            display:none;
+        }
+            
+        #downloadpanel {
+            margin:0;
+            background-color:#EDEDED;
+
+            position:absolute;
+            left: 0;
+            top:48px;
+            bottom:10px;
+            right:5px;
+            margin-left:0;
+        }
+        #downloadlist {
+            position:absolute;
+            left: 15px;
+            top:70px;
+            bottom:5px;
+            right:15px;
+            overflow-x:hidden;
+            overflow-y:auto;
+        }
+
+        #download_header {
+            position:absolute; 
+            height:50px; left:10px; right:10px; top: 10px; 
+            background-color: #4E4E4E;
+        }
+        #download_icon {
+            position:absolute; 
+            height:40px; left:10px; top: 8px; 
+        }
+        #download_txt {
+            position:absolute; 
+            height:30px; left:40px; top: 12px; 
+        }
+
+        #viewer {
+            display:none;
+            position:absolute;
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #4C4C4C), color-stop(1, #020202));
+            width:80%; height:80%; 
+            padding: 30px;  
+            border-radius:10px"
+        }
+        
+
+    </style>
+
+
+</head>
+        
+<body>
+    <div id="wrapper">
+        <div id="top">
+            <img id="home_button" src="images/top/top_home_01.png"  onClick="showLogin()" style="position:absolute; left:20px; top:5px; height:35px"/>
+            <img src="images/top/fubonvision_logo.png" style="position:absolute; left:100px; height:35px;top:5px;"/>
+        </div>
+        <div id="downloadpanel">
+
+            <span id="download_header"> 
+            <img id="download_icon" src="images/downloads/download_icon.png" />
+            <img id="download_txt" src="images/downloads/download_txt.png" />
+            </span>
+    
+            <div id="downloadlist" class="scrolling"> 
+    
+            </div>    
+
+        </div>
+    </div>
+
+    <div id="login" style="position:absolute; left:50%; top:50%; margin-left:-150px; margin-top: -150px; width:300px; height: 100px; background-color:#EEEFEF; border-radius:15px;display:none">
+         <img src="images/top/fubonvision_logo2.png" style="position:absolute; left:86px; height:25px;top:10px;width:120px; height:25px;"/>
+
+         <img src="images/login/account.png" style="position:absolute; left:20px;top:45px; width:54px; height:26px;"/> 
+         <img src="images/login/password.png" style="position:absolute; left:20px;top:75px; width:54px; height:26px;"/>
+         <img src="images/login/validatecode.png" style="position:absolute; left:20px;top:105px; width:54px; height:26px;"/>
+
+         <img id="validateImage" style="position:absolute; border: dashed 2px #ccc; left:155px; width:54px; height:26px; top:115px" src="images/login/loading.png" />
+         <img id="changecode" src="images/login/change_code.png" style="position:absolute; width:72px; left: 225px; top:110px;cursor:pointer " />
+
+         <img id="btn" src="images/login/login2.png" style="position:absolute; width:60px; right: 15px; top:50px ;cursor:pointer;" />
+		 
+
+         <input id="user" name="user" type="text" style="position: absolute; left:70px; width: 135px; top:50px; font-size:12pt"/>
+         <input id="pass" name="pass" type="password" style="position: absolute; left:70px; width: 135px;  top:80px; font-size:12pt"/>
+         <input id="validateCode" name="validateCode" type="text" pattern="[0-9]*" style="position: absolute; left:80px; top:110px; width:60px; font-size:12pt" />
+         <div id="offline_panel" style="position:absolute; left:0px; bottom:0px; height:55px;  width:100%; background: rgba(73,155,234,1); background: -webkit-linear-gradient(left, rgba(73,155,234,1) 0%, rgba(73,155,234,1) 13%, rgba(73,155,234,1) 52%, rgba(32,124,229,1) 82%, rgba(32,124,229,1) 100%); ">
+         <img id="offline_btn" src="images/login/offline.png" style="position:absolute; left:30px; bottom:10px; width:240px; cursor:pointer;" />
+		 </div>
+         <span id="message" style="position:absolute; left: 10px; bottom:-60px; width: 300px; height: 60px; border:solid 0px red; font-size:16pt"> &nbsp </span>
+
+    </div>
+
+    <div id="dialog-confirm">
+    </div>
+
+    <div id="viewer">
+        <img src="images/close_box_gray.png" onClick='$("#viewer").trigger("close");' style="position:absolute; cursor:pointer; width:25px; height: 25px; right:5px; top:2px"/>
+        <div id="v1" style="position:absolute; left:0; right:0; top:0; bottom:0"> </div>
+    </div>
+
+</body>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/StageWebViewBridge.js"></script>
+    <script src="js/jquery.lightbox_me.js"></script>
+    <script src="js/swfobject.js"></script>
+    <script src="js/jquery.strobemediaplayback.js"></script>
+
+    <script type="text/javascript">
+        
+        var g_CAPTCHA_URL='https://fubonevideo.moker.com/ajax/main/validateImg.php';
+        var g_LOGIN_URL='https://fubonevideo.moker.com/ajax/main/checkSSO_x.php';
+        var g_MAIN_PROG_URL = 'https://fubonevideo.moker.com/phone';
+
+        var buttonArray=[];
+        var download_task_all=[];
+        var download_task_finished=[];
+        var download_progress_array=[];
+
+        var g_serverPort;
+        var g_width;
+        var g_height;
+        var g_id;
+        var g_sid;
+        var g_rank;
+        var g_unitcode;
+        var appVersion='';
+        var today;
+        var random=Math.random();
+                
+        $(window).load(function() {
+
+             fixIOSBounce();
+            
+             g_serverPort = window.location.port;
+
+             url = window.location.toString();
+			 if(url.indexOf("?")!=-1){
+			    // today = (url.split("?")[1] == "true");
+                             today = (url.indexOf("true")!=-1);
+		     }
+
+             prepareLogin();
+
+			 showLogin();
+
+			  $('img').bind('contextmenu', function(e) {
+                return false;
+            }); 
+            
+            buttonArray = 
+                [
+                {id:'home', normal:'images/top/top_home_01.png', press:'images/top/top_home_01.png', link:'y0_home.php'},
+                ];
+
+            onWindowSize();
+
+            $(window).resize(function() {
+                onWindowSize();
+            });
+
+            url = window.location.toString();
+            if(url.indexOf("download")!=-1){
+                $("#offline_btn").trigger("click");
+            }
+        });
+
+function fixIOSBounce() {
+    if (((typeof g_ua)=="undefined") || (g_ua== "")) g_ua= navigator.userAgent;
+    if (g_ua.match(/iPad/i) || g_ua.match(/iPhone/i)) {
+
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, false);
+
+        var elem = document.getElementsByClassName ('scrolling');
+        for (var i = 0, len = elem.length; i < len; i++) {
+            elem[i].addEventListener('touchstart', function(event) {
+
+
+                this.allowUp = (this.scrollTop > 0);
+                this.allowDown = (this.scrollTop < this.scrollHeight - this.clientHeight);
+                this.prevTop = null;
+                this.prevBot = null;
+              this.lastY = event.pageY;
+            });
+        }
+        for (var i = 0, len = elem.length; i < len; i++) {
+
+            elem[i].addEventListener('touchmove', function(event) {
+                var up = (event.pageY > this.lastY),
+                    down = !up;
+
+                this.lastY = event.pageY;
+
+                if ((up && this.allowUp) || (down && this.allowDown))
+                    event.stopPropagation();
+                else
+                    event.preventDefault();
+            });
+        }
+    }
+}
+
+       function showLogin() {
+
+            $("#changecode").trigger("click");
+
+            $("#wrapper").css('visibility', "hidden");
+            $("#user, #pass, #validateCode").val('');
+
+			if (!today) {
+			  $("#offline_panel").hide();
+			  $("#login").css("height", "200");
+
+			} else {
+			  $("#offline_panel").show();
+			  $("#login").css("height", "200");
+
+			}
+
+/*
+            $("#login").lightbox_me({
+                closeClick: false,
+                closeEsc: false,
+                centered: true,
+                overlayCSS: {background: 'black', opacity: .8},
+                onLoad: function() { 
+                    $('#user').focus()
+                }
+            });
+*/
+            $("#login").css("display", "block");
+         
+       }
+
+       function showValidateImage() {
+            var validateImageURL = g_CAPTCHA_URL+'?p='+random;
+
+            $("#validateImage")
+            .one('load', function() { //Set something to run when it finishes loading
+                $(this).fadeIn(); //Fade it in when loaded
+            })
+            .attr('src', validateImageURL) //Set the source so it begins fetching
+            .each(function() {
+                //Cache fix for browsers that don't trigger .load()
+                if(this.complete) $(this).trigger('load');
+            });
+       }
+    
+       function prepareLogin() {
+
+//            $("#validateImage").attr('src', validateImageURL) //Set the source so it begins fetching
+
+            $("#validateImage").attr('src', "images/login/loading.png");
+//            showValidateImage();
+            $(document).ajaxStart(function() {
+                $("#message").html('登入中..');
+                $( "#message" ).show();
+            });
+//            $("#user").focus();
+            $('#user').keypress(function(e) {
+                code= (e.keyCode ? e.keyCode : e.which);
+                if (code == 13) {
+                    if ($("#user").val()!=null) $("#pass").focus().select();
+                   e.preventDefault();
+                }
+            });
+            $('#pass').keypress(function(e) {
+                code= (e.keyCode ? e.keyCode : e.which);
+                if (code == 13) { 
+//                    if ($("#pass").val()!=null) doLogin();
+                    if ($("#pass").val()!=null) $("#validateCode").focus().select();
+                   e.preventDefault();
+                }
+            });
+            $('#validateCode').keypress(function(e) {
+                code= (e.keyCode ? e.keyCode : e.which);
+                if (code == 13) {
+                    if ($("#validateCode").val()!=null) doLogin();
+                   e.preventDefault();
+                }
+            });
+
+            $("#btn").click(function() { doLogin()});
+            $("#offline_btn").click(function() { doOffline()});
+
+            $("#changecode").click(function() {
+                $("#validateImage").attr('src', "images/login/loading.png");
+                showValidateImage(); 
+            });
+        }
+        function canDownload() {
+            return (download_task_all.length<10);
+        }
+
+        function ifDownloaded(id) {
+            return ($.inArray(id, download_task_all));
+        }
+        function checkVideoDownloadStatus(id) {
+
+            if ($.inArray(id, download_task_finished)!=-1) return 1;  //download complete
+            if ($.inArray(id, download_task_all)!=-1) return 2;  // downloading 
+            return 0; //Not in download task
+        }
+        function doOffline() {
+	   readyForDownload(1);
+            $("#login").trigger('close');
+            $("#login").css("display", "none");
+            $("#wrapper").css('visibility', "visible");
+        }
+        function doLogin() {
+
+            user =$('#user').val();
+            pass =$('#pass').val();
+            validateCode =$('#validateCode').val();
+
+            var NET_SessionId;
+            $("#message").html('登入中..');
+            $( "#message" ).show();
+
+            StageWebViewBridge.call('getVersion', function(data) {
+                appVersion = data;
+                authentication(user, pass, validateCode);
+            });
+
+        }
+
+        function authentication(user, pass, validateCode) {
+
+            var xhr = $.ajax({ 
+	        url: g_LOGIN_URL,
+		type: 'get', 
+		dataType: 'jsonp', 
+		contentType: 'application/json', 
+		crossDomain: true, 
+		data: {user: user, pass: pass, validateCode: validateCode, version: appVersion,p:random}, 
+                success: function (data) {
+                    response = data.result;
+                    message = data.message;
+
+                    showLoginMessage(0);
+                    if(response == 'success') {
+                        message = '登入成功';
+                        $('#message').show();
+                        showLoginMessage(1, "處理中...");
+		        StageWebViewBridge.call('userLogin', null, user);                                                                          
+
+                        var destination = g_MAIN_PROG_URL+"?p="+g_serverPort;
+
+                        destination += "&w="+$(window).width();
+                        destination += "&h="+$(window).height();
+                        if (data.id) destination += "&i="+data.id;
+                        //if (data.sid) destination += "&s="+data.sid;
+                        if (data.rank) destination += "&r="+data.rank;
+                        if (data.unitcode) destination += "&u="+data.unitcode;
+//                        if (data.name) destination += "&n="+data.name;
+                        //window.location.replace(destination);
+	     StageWebViewBridge.call('loadURL', null, destination);
+//alert(destination);
+        		/*
+                            $('#message').hide().html(message).fadeIn("fast", function() {  window.setTimeout(function() { $('#message').fadeOut("slow"); }, 3000); });
+                            $("#login, #login2").trigger('close');
+                            $("#wrapper").css('visibility', "visible");
+                            $("#query").focus();
+			*/
+                    } else {
+//                      $("#changecode").trigger("click");
+                        $('#message').hide().html(message).fadeIn("fast", function() {  window.setTimeout(function() { $('#message').fadeOut("slow"); }, 3000); });
+                        $("#user").focus().select();
+                    
+                    }
+                    
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    showLoginMessage(0);
+                    $("#changecode").trigger("click");
+                    message = '連線失敗:' + textStatus;
+                    $('#message').hide().html(message).fadeIn("fast", function() {  window.setTimeout(function() { $('#message').fadeOut("slow"); }, 3000); });
+                }
+            });
+	    showLoginMessage(1, "登入中", xhr); 
+        }
+
+        function onWindowSize() {
+		
+            w = $(window).width();
+            h = $(window).height();
+				
+//            if (w<900) w=900;
+//            if (h<600) h=600;
+
+            $('#wrapper').width(w);
+            $('#wrapper').height(h);
+        }
+        
+
+        function showDownloadList() {
+            $("#downloadpanel").show();
+
+        }
+        function updateDownloadPage() {
+             StageWebViewBridge.call('getDownloadedList', function(data) {
+                 preparePhoneDownloadPage(data);
+             });
+         }
+
+        function readyForDownload(data) {
+
+            if (data<=0) return;
+             updateDownloadPage();
+
+/*
+             StageWebViewBridge.call('g_serverPort', function(data) {
+                 g_serverPort = data;
+             });
+*/
+	     //StageWebViewBridge.call('updateCache', null, 'http://fubon.moker.com.tw/entry.html');
+//	     StageWebViewBridge.call('updateCache', null, 'http://fubon.moker.com.tw/entry_phone.html');
+//	     StageWebViewBridge.call('updateCache', null, 'http://fubon.moker.com.tw/sso_mobile.html');
+
+//             StageWebViewBridge.call('startDownload'); 
+
+        }
+
+        function openURL(url) {
+            StageWebViewBridge.call('openURL', null, url );
+        }
+
+        function updateDownloadList(id, progress) {
+
+            if (progress!=100) {
+                $("#progress_"+id).progressbar({ value: progress, background: "#B637E6" });
+                $("#play_"+id).hide();
+                $("#pause_"+id).show();
+                $("#resume_"+id).hide();
+            } else {
+
+                $("#progress_"+id).hide();
+                $("#play_"+id).show();
+                $("#pause_"+id).hide();
+                $("#resume_"+id).hide();
+            }
+
+        } 
+        function onPause(id) {
+            StageWebViewBridge.call('pauseDownload', null, id );
+            updateDownloadPage();
+        } 
+        function onResume(id) {
+            StageWebViewBridge.call('resumeDownload', null, id );
+            updateDownloadPage();
+        } 
+
+function showLoginMessage(on_off, msg, xhr) {
+
+    if (on_off==1) {
+
+        show = typeof msg !== 'undefined' ? msg : '請稍候';
+        xhr = typeof xhr !== 'undefined' ? xhr : null; 
+
+        var buttons = {};
+        if (xhr != null) {
+            buttons["取消"] = function() {xhr.abort();  $( this ).dialog( "close" );};
+        }
+
+        $("#dialog-confirm").html(show).dialog({
+            title: '訊息視窗',
+            resizable: false,
+            draggable: false,
+            closeOnEscape: false,
+            open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog || ui).hide(); $(".ui-dialog-titlebar-close", $(this).parent()).hide();},
+//            position: { my: "center", at: "center", of: window },
+            modal: true,
+            buttons: buttons
+        });
+   } else {
+        $("#dialog-confirm").html('').dialog("close");
+   }
+}
+
+
+function showWait(on_off) {
+
+    if (on_off==1) {
+
+        var show = '<img src="http://127.0.0.1:'+g_serverPort+'/images/animal0020.gif"/> ';
+
+        $("#dialog-confirm").html(show).dialog({
+            title: '準備中',
+            resizable: false,
+            height:200,
+            width:100,
+            position: { my: "center", at: "center", of: window },
+            modal: true,
+            buttons:[]
+        });
+   } else {
+        $("#dialog-confirm").html('').dialog("close");
+   }
+}
+
+
+function onOfflinePlay(id, path) {
+    showWait(1);
+    prefix = 'http://127.0.0.1:' +g_serverPort + '/';
+
+    var w=$(document).height();
+    var h=$(document).width();
+    var video_h = h-20;
+    var html_content = "<html><head><meta name='viewport' content='width=device-width, user-scalable=no'><script src='"+prefix+"js/jquery.min.js'><\/script><script src='"+prefix+"js/StageWebViewBridge.js'><\/script><script> $(window).load(function(){StageWebViewBridge.call('ready'); var elem = document.getElementById('vplayer');if (elem.requestFullscreen) {elem.requestFullscreen();} });function onKeyDown(code) {goBack(); } function goBack(){StageWebViewBridge.call('stopPlay', null, "+ id +");} <\/script></head><body style='background-color:#000;'><img id='back' src='"+prefix +"images/close_box_gray.png' style='position:fixed; right:0; top:0; height:20px; z-Index:1000;' onClick='goBack();'/><video id='vplayer' style='position:absolute;left:0; top:20px; z-Index:999' poster='"+prefix+"images/poster_360p.jpg' controls autoplay preload='yes' width='"+w+"' height='"+video_h+"'> <source src='" + id + ".mp4' type='video/mp4'></video></body></html>";
+    StageWebViewBridge.call('toOriginal', function(data){
+        var url=data;
+        var launch=true;
+           
+//           StageWebViewBridge.call('setOrientation', null, 1);  //change to landscape mode
+           
+        StageWebViewBridge.call('file_put_contents', null, "p.html", html_content, launch);
+
+    }, id );
+}
+
+        function onOfflinePlay1(id, path) {
+    
+            var prefix = 'http://127.0.0.1:' +g_serverPort + '/';
+            var h=$(document).height();
+            var w=$(document).width();
+            var video_h = h-20;
+            var html_content = "<html><head><meta name='viewport' content='width=device-width, user-scalable=no'><script src='"+prefix+"js/jquery.min.js'><\/script><script src='"+prefix+"js/StageWebViewBridge.js'><\/script><script> function onKeyDown(code) {goBack(); } function goBack(){$('#vplayer').get(0).pause(); $('#back').css('display', 'none'); StageWebViewBridge.call('encFile', null, " + id + "); StageWebViewBridge.call('removeFile', null,'p.html'); /*StageWebViewBridge.call('setOrientation', null, 0);*/ location.replace('"+prefix+"entry_phone.html?download&true'); } <\/script></head><body style='background-color:#000;'><img id='back' src='"+prefix +"images/close_box_gray.png' style='position:fixed; left:0; top:0; height:20px; z-Index:1000;' onClick='goBack();'/><video id='vplayer' style='position:absolute; left:0; top:20px; z-Index:999' poster='"+prefix+"images/poster_360p.jpg' controls autoplay preload='yes' width='"+w+"' height='"+video_h+"'> <source src='" + id + ".mp4' type='video/mp4'></video></body></html>";
+
+            StageWebViewBridge.call('toOriginal', function(data){
+               var launch=true;
+        //       StageWebViewBridge.call('setOrientation', null, 1);
+
+        //        alert(html_content);
+                StageWebViewBridge.call('file_put_contents', null, "p.html", html_content, launch);
+           }, id ); 
+        }
+
+        function onPlay(id, path) {
+            prefix='';
+            if (g_serverPort!=0) {
+                prefix = 'http://127.0.0.1:' +g_serverPort + '/';
+            } else {
+                prefix = 'http://fubon.moker.com.tw/';
+            }
+            if ((typeof path) == 'undefined') {
+                if (g_serverPort!=0) {
+                    v_url = 'http://127.0.0.1:' +g_serverPort + '/'+id + '.mp4';
+                } else {
+                    v_url = 'http://fubon.moker.com.tw/DATA/video/720p/' +id + '.mp4';
+
+                }
+            } else {
+                v_url = path;
+            }
+            $("#viewer").lightbox_me({
+                closeClick: true,
+                closeEsc: false,
+                centered: true,
+                overlayCSS: {background: 'black', opacity: .5},
+                onLoad: function() { 
+                }
+            });
+
+
+            options = {
+                src : v_url,
+                preload: 'auto',
+                autoPlay: true,
+                useHTML5: true,
+                playButtonOverlay: true,
+                height : "100%",
+                width : "100%",
+                favorFlashOverHtml5Video: true,
+                javascriptCallbackFunction: "onJavaScriptBridgeCreated",
+                scaleMode : 'letterbox'
+            };
+            options = $.fn.adaptiveexperienceconfigurator.adapt(options);
+            p = $("#v1").strobemediaplayback(options);
+        } 
+        function onDelete(id) {
+$(".ui-dialog-titlebar").css("background-color", "blue");
+
+            $("#dialog-confirm").html("").dialog({
+                  title:"刪除本影片嗎?",
+                  resizable: false,
+                  modal: true,
+                  buttons: {
+                    "確定": function() {
+                      StageWebViewBridge.call('deleteVideo', null, id );
+                      updateDownloadPage();
+                      $( this ).dialog( "close" );
+                    },
+                    "取消": function() {
+                      $( this ).dialog( "close" );
+                    }
+                  }
+              });
+
+        }
+        function preparePhoneDownloadPage(data) {
+
+            download_task_all=[];
+            download_task_finished=[];
+            download_progress_array=[];
+
+            len = data.length;
+
+            html_content = ' <ul id="download_container" style="position:absolute; left:0px; right:0px; top:30px; border: solid 0px red; bottom:0; margin:0; list-style-type: none;padding-left:20px; padding-right:40px; background-color:#eee;">';
+
+            for (i=0; i<len; i++) {
+
+                download_task_all.push(data[i].id);
+
+                id = data[i].id;
+
+//     cell = '<div style="position:relative; margin: 10px 5px; float:left; width: 18%; height: 48%; border: solid 0px red;">'+' <img style="width:100%;height:90%" src="DATA/images/cover/' + id + '.png"/><span id="func_'+ id+ '" style="position:absolute;left:0; bottom:0px; width:100%; height: 10%"><div id="play_'+id+'" style="background:url(images/downloads/play_normal.png) no-repeat center center; display:inline-block" onClick="onPlay('+data[i].id+')"></div> <div id="pause_'+id+'" style="background:url(images/downloads/pause_normal.png) no-repeat center center;" onClick="onPause('+data[i].id+')"></div> <div id="resume_'+id+'" style="background:url(images/downloads/resume_normal.png) no-repeat center center;" onClick="onResume('+data[i].id+')"></div> <div id="delete_'+id+'" style="background:url(images/downloads/delete_normal.png) no-repeat center center;" onClick="onDelete(' + data[i].id +')"></div></span><div class="progress" id="progress_'+ data[i].id + '"></div></div>';
+
+
+        cell = '<li style="height:120px; width:100%; margin: 10px; position:relative; border-bottom: solid 3px #aaa">' +
+              '<span id="item_'+id+'" style="position:absolute; width:100%; height:100%; ">'+
+               '<div style="position:absolute; width:20%; left:0; top:0; bottom:0; text-align:center;"> '+
+                '<img src="http://fubon.moker.com.tw/DATA/images/cover150/' + id + '.png" style="height:110px;"/> '+
+                '<br/>' +
+                '<div class="progress" id="progress_'+id+'"></div>'+
+                '</div>' +
+            
+    //            '<div style="position:absolute; left:25%; right:0%; top:10px; bottom:10px;">踏出夢想的第一步(第一集)：奇異旅程<br/>影片長度：25分10秒</div>'+
+
+
+                '<span class="download_controler">' +
+                '<div class="download_item" data-id="' + id + '" data-action="play" style="background-image:url(images/downloads/play_normal.png);"></div>' +
+                '<div class="download_item" data-id="' + id + '" data-action="pause" style="background-image:url(images/downloads/pause_normal.png);"></div>' +
+                '<div class="download_item" data-id="' + id + '" data-action="resume" style="background-image:url(images/downloads/resume_normal.png);"></div>' +
+                '<div class="download_item" data-id="' + id + '" data-action="delete" style="background-image:url(images/downloads/delete_normal.png);"></div>' +
+                '</span>' +
+                '</span>' +
+                '</li>';
+
+
+                html_content+=cell;
+
+                var z=new Object;
+                z.id=data[i].id;
+                z.status=data[i].status;
+                z.progress=data[i].progress;
+                download_progress_array.push(z);
+
+                if (z.status==1) download_task_finished.push(z.id)
+            }
+            html_content +="</ul>";
+
+            $("#downloadlist").html(html_content);
+
+            $(".download_item").click(function() {
+
+                var $id = $(this).data("id");
+                switch ($(this).data("action")) {
+                    case "play":
+                        onOfflinePlay($id);
+                        break;
+                    case "pause":
+                        onPause($id);
+                        break;
+                    case "resume":
+                        onResume($id);
+                        break;
+                    case "delete":
+                        onDelete($id);
+                        break;
+                }
+            });
+
+            
+            $.each(download_progress_array, function(key, value) {
+                switch(value.status) {
+                    case 0: //STATUS_DOWNLOADING
+
+                        $('#item_' + value.id + ' .progress').show().progressbar({
+                            value: value.progress,
+                            background: "#B637E6"
+                        });
+                        $('#item_' + value.id + ' [data-action="play"]').hide();
+                        $('#item_' + value.id + ' [data-action="pause"]').show();
+                        $('#item_' + value.id + ' [data-action="resume"]').hide();
+                        $('#item_' + value.id + ' [data-action="delete"]').show();
+                        break;
+                    case 1: //STATUS_COMPLETE
+                        $('#item_' + value.id + ' .progress').hide();
+                        $('#item_' + value.id + ' [data-action="play"]').show();
+                        $('#item_' + value.id + ' [data-action="pause"]').hide();
+                        $('#item_' + value.id + ' [data-action="resume"]').hide();
+                        $('#item_' + value.id + ' [data-action="delete"]').show();
+
+                        value.progress = 100;
+
+                        break;
+                    case 2: //STATUS_PAUSE
+                        $('#item_' + value.id + ' .progress').show().progressbar({
+                            value: value.progress,
+                            background: "#B637E6"
+                        });
+                        $('#item_' + value.id + ' [data-action="play"]').hide();
+                        $('#item_' + value.id + ' [data-action="pause"]').hide();
+                        $('#item_' + value.id + ' [data-action="resume"]').show();
+                        $('#item_' + value.id + ' [data-action="delete"]').show();
+                        break;
+
+                    case 3: //STATUS_PENDING
+                        $('#item_' + value.id + ' .progress').show().progressbar({
+                            value: value.progress,
+                            background: "#B637E6"
+                        });
+                        $('#item_' + value.id + ' [data-action="play"]').hide();
+                        $('#item_' + value.id + ' [data-action="pause"]').show();
+                        $('#item_' + value.id + ' [data-action="resume"]').hide();
+                        $('#item_' + value.id + ' [data-action="delete"]').show();
+                        break;
+                    case 4: //STATUS_ERROR
+                        $('#item_' + value.id + ' .progress').show().progressbar({
+                            value: value.progress,
+                            background: "#B637E6"
+                        });
+                        $('#item_' + value.id + ' [data-action="play"]').hide();
+                        $('#item_' + value.id + ' [data-action="pause"]').hide();
+                        $('#item_' + value.id + ' [data-action="resume"]').hide();
+                        $('#item_' + value.id + ' [data-action="delete"]').show();
+                        break;
+                }
+            });
+        }
+
+        function prepareDownloadPage(data) {
+
+            download_task_all=[];
+            download_task_finished=[];
+            download_progress_array=[];
+
+            len = data.length;
+
+            html_content = '<div id="download_list" style="margin-left:auto; margin-right:auto;;height:97%; width:97%; border: solid 0px red;">';
+
+            for (i=0; i<len; i++) {
+
+                download_task_all.push(data[i].id);
+             // if (data[i].status != 1) continue;
+
+                id = data[i].id;
+     cell = '<div style="position:relative; margin: 10px 5px; float:left; width: 18%; height: 48%; border: solid 0px red;">'+' <img style="width:100%;height:90%" src="DATA/images/cover/' + id + '.png"/><span id="func_'+ id+ '" style="position:absolute;left:0; bottom:0px; width:100%; height: 10%"><div id="play_'+id+'" style="background:url(images/downloads/play_normal.png) no-repeat center center; display:inline-block" onClick="onPlay('+data[i].id+')"></div> <div id="pause_'+id+'" style="background:url(images/downloads/pause_normal.png) no-repeat center center;" onClick="onPause('+data[i].id+')"></div> <div id="resume_'+id+'" style="background:url(images/downloads/resume_normal.png) no-repeat center center;" onClick="onResume('+data[i].id+')"></div> <div id="delete_'+id+'" style="background:url(images/downloads/delete_normal.png) no-repeat center center;" onClick="onDelete(' + data[i].id +')"></div></span><div class="progress" id="progress_'+ data[i].id + '"></div></div>';
+                html_content+=cell;
+
+                var z=new Object;
+                z.id=data[i].id;
+                z.status=data[i].status;
+                z.progress=data[i].progress;
+                download_progress_array.push(z);
+
+                if (z.status==1) download_task_finished.push(z.id)
+            }
+            html_content +="</div>";
+
+            $("#downloadlist").html(html_content);
+
+            
+            $.each(download_progress_array, function(key, value) {
+                switch(value.status) {
+                    case 0:  //STATUS_DOWNLOADING
+                        $("#progress_"+value.id).show().progressbar({ value: value.progress, background: "#B637E6" });
+                        $("#play_"+value.id).hide();
+                        $("#pause_"+value.id).show();
+                        $("#resume_"+value.id).hide();
+                        $("#delete_"+value.id).show();
+                        break;
+                    case 1:  //STATUS_COMPLETE
+                        $("#progress_"+value.id).hide();
+                        $("#play_"+value.id).show();
+                        $("#pause_"+value.id).hide();
+                        $("#resume_"+value.id).hide();
+                        $("#delete_"+value.id).show();
+                        break;
+                    case 2:  //STATUS_PAUSE
+                        $("#progress_"+value.id).show().progressbar({ value: value.progress, background: "#B637E6" });
+                        $("#play_"+value.id).hide();
+                        $("#pause_"+value.id).hide();
+                        $("#resume_"+value.id).show();
+                        $("#delete_"+value.id).show();
+                        break;
+
+                    case 3:  //STATUS_PENDING
+                        $("#progress_"+value.id).show().progressbar({ value: value.progress, background: "#B637E6" });
+                        $("#play_"+value.id).hide();
+                        $("#pause_"+value.id).show();
+                        $("#resume_"+value.id).hide();
+                        $("#delete_"+value.id).show();
+                        break;
+                    case 4:  //STATUS_ERROR
+                        $("#progress_"+value.id).show().progressbar({ value: value.progress, background: "#B637E6" });
+                        $("#play_"+value.id).hide();
+                        $("#pause_"+value.id).hide();
+                        $("#resume_"+value.id).hide();
+                        $("#delete_"+value.id).show();
+                        break;
+
+                }
+            });
+        }
+
+        function onKeyDown(code) {
+
+            if (code ==16777238) {
+                $("#dialog-confirm").html('').dialog({
+                    title: '確認離開?',
+                    resizable: false,
+                    height:140,
+                    width:250,
+                    modal: true,
+                    buttons:[
+                        {
+                            text:"是", 
+                            "id": "idYes", 
+                            click:function(){
+                                $( this ).dialog( "close" );
+                                StageWebViewBridge.call('exitApp');
+                            }
+                        },
+                        {
+                            text:"否", 
+                            "id": "idNo", 
+                            click:function(){
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    ]
+                });
+            }
+
+        }
+        
+        
+    </script>
+
+</html>

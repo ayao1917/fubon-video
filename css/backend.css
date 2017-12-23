@@ -1,0 +1,53 @@
+body {
+background: url(../images/bg_color_0f899e.png) repeat;
+}
+#all {
+
+    width:1100px;
+}
+
+.item {
+/*
+background: url(../images/backend/pic_bg_2.png) no-repeat;
+*/
+
+background-color: #85C7DD;
+-moz-border-radius: 15px;
+border-radius: 15px;
+
+float: left;
+list-style-type: none; 
+
+margin: 30px 10px;
+width: 237px;
+height: 416px;
+
+}
+
+.item img {
+
+margin-top: 20px;
+margin-left: 10px;
+margin-bottom: 10px;
+
+}
+
+.action {
+margin: 10px 10px;
+list-style-type: disc; 
+font-size: 14pt;
+
+}
+
+A:link , A:visited , A:active, A:hover {
+     color: blue;
+     text-decoration:none;
+}
+li p {
+     color: blue;
+     text-decoration:none;
+     cursor: pointer;
+}
+
+
+

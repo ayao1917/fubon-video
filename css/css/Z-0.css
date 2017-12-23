@@ -1,0 +1,83 @@
+﻿#category{
+	width:280px;
+	background:#FFE;
+	position:absolute;
+/*
+	border-style:groove; 
+*/
+	height:100%;
+}
+
+#category_buttons {
+position: absolute;
+	top:0px;
+	border: solid red 0px;
+}
+#category_buttons input{
+	margin:15px 5px 0 5px;
+	font-size:12pt;
+}
+
+  #reorder_panel {width: 600px; height: 500px; overflow: auto;  padding: 10px 10px; border: solid 1px green; background-color: #ffffff}
+  #sortable { list-style-type: none; margin: 0; padding: 0; width: 580px;}
+  #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; width: 90%; overflow: hide; height: 18px; cursor:pointer }
+  #sortable li span { position: absolute; margin-left: -1.3em; }
+
+#tree{
+padding:0px;
+margin: 10px 0;
+width:100%;
+height:100%;
+top:100px;
+position: absolute;
+overflow: auto;
+left:0;
+}
+
+#tree li {
+font-size:12pt;
+padding:5px;
+
+}
+
+#content{
+	height:100%;
+	position:absolute;
+	border: 0px solid red;
+	left: 50px;
+	right:50px;
+}
+#BookListContainer{
+    width: 90%;
+	margin: 50px auto;
+	border: 0px solid red;
+}
+
+
+.jtable-input-field-container {
+	clear:both;
+}
+.jtable-input {
+	clear:both;
+
+}
+
+#Edit-AUTHOR, #Edit-TITLE {
+	
+	width:400px;
+}
+
+.jtable-radio-input {
+	float:left;
+    margin: 1px 5px;
+}
+
+.jtable-input:after {
+
+content: ".";
+display: block;
+height: 0;
+clear: both;
+visibility: hidden;
+
+}
