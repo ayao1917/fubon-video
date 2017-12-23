@@ -80,12 +80,20 @@ $video_books = $book_db->getVideoBooks();
 //    106040701 => array("【XEU XLT】教戰手冊", 106040702)
 //);
 $video_books_for_all = $book_db->getTechBooks();
+$video_books_pres = $book_db->getPresBooks();
 
 if (array_key_exists($video_id, $video_books_for_all)) {
     $id1 = $video_books_for_all[$video_id][1];
     $url1 = __URL_PREFIX__."ajax/main/book.php?id=$id1&sid=".session_id();
     $metadata .= "<br/>";
     $metadata .= '<img src="images/film_index/film_index_techbook.png" style="width:107px ; cursor:pointer;" onclick="parent.openURL(\'' . $url1. '\');" />';
+}
+
+if (array_key_exists($video_id, $video_books_pres)) {
+    $id1 = $video_books_pres[$video_id][1];
+    $url1 = __URL_PREFIX__."ajax/main/book.php?id=$id1&sid=".session_id();
+    $metadata .= "<br/>";
+    $metadata .= '<img src="images/film_index/film_index_download.png" style="width:107px ; cursor:pointer;" onclick="parent.openURL(\'' . $url1. '\');" />';
 }
 
 if (array_key_exists($video_id, $video_books)) {

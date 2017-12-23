@@ -148,6 +148,19 @@ class Book{
         return $result;
     }
 
+    public function getPresBooks() {
+        $result = array();
+        $sql = "SELECT VIDEO_BOOK.ID AS ID, BOOK.TITLE AS TITLE, BOOK.ID AS BID FROM VIDEO_BOOK LEFT JOIN BOOK ON VIDEO_BOOK.PRES_BOOK=BOOK.ID WHERE VIDEO_BOOK.TYPE = 3";
+
+        $sth = MainDB::getConnection()->prepare($sql);
+        $sth->execute();
+        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($rows as $item) {
+            $result[$item['ID']] = array($item['TITLE'], $item['BID']);
+        }
+        return $result;
+    }
+
     public function getNewBookId() {
         $t = getDate1();
         $c=0;
