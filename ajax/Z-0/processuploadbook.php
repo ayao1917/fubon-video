@@ -12,7 +12,6 @@ if (isset($_POST)) {
     if (!isset($_REQUEST['id'])) die();
     $id = $_REQUEST['id'];
 
-
     checkDir(__FDATA_PATH__);
     $DestinationDirectory = __FDATA_PATH__ . "/books/"; //Upload Directory ends with / (slash)
     checkDir($DestinationDirectory);
@@ -40,6 +39,10 @@ if (isset($_POST)) {
 
         case "TECH_BOOK":
             $bookIndex = 2;
+            break;
+
+        case "PRES_BOOK":
+            $bookIndex = 3;
             break;
     }
 

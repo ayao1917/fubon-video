@@ -16,6 +16,11 @@ $(document).ready(function() {
         beforeSubmit: function() { $("#output3").html('<div style="padding:10px"><img src="images/ajax-loader.gif" alt="請稍候"/> <span>上傳中...</span></div>');},
         success:  afterSuccess //call function after success
     });
+    $("#UploadForm4").ajaxForm({
+        target: "#output4",
+        beforeSubmit: function() { $("#output4").html('<div style="padding:10px"><img src="images/ajax-loader.gif" alt="請稍候"/> <span>上傳中...</span></div>');},
+        success:  afterSuccess //call function after success
+    });
 });
 function showResponse(responseText, statusText, xhr, $form)  { 
     alert('status: ' + statusText + '\n\nresponseText: \n' + responseText + 
@@ -24,6 +29,6 @@ function showResponse(responseText, statusText, xhr, $form)  {
 }
 
 function afterSuccess()  {
-    $('#UploadForm1, #UploadForm2').resetForm();  // reset form
-    $('#SubmitButton1, #SubmitButton2').removeAttr('disabled'); //enable submit button
+    $('#UploadForm1, #UploadForm2, #UploadForm3').resetForm();  // reset form
+    $('#SubmitButton1, #SubmitButton2, #SubmitButton3').removeAttr('disabled'); //enable submit button
 }
