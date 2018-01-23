@@ -68,19 +68,9 @@ if (count($data)==3) {
 //$metadata = "<img src='DATA/images/cover/". $rows["SERIAL_NUMBER"] .".png' style=' margin-top: 10px;'/> &nbsp;<br/> <br/><p>".$rows["TITLE"]."</span></p><br/><p>序號：".$rows["SERIAL_NUMBER"]."</p> <p>上映日期：".$publish_date."</p> <p>影片類別：".$info[0]["TITLE"]."</p>". $tag_info . " <p>影片長度：".$duration."</p> <p>影片簡介：</p><p>".$rows["DETAIL"]."</p>";
 $metadata = "<img src='DATA/images/cover/". $rows["SERIAL_NUMBER"] .".png' style=' margin-top: 10px;'/> &nbsp;<br/> <br/><p>".$rows["TITLE"]."</span></p><br/><p>上映日期：".$publish_date."</p> <p>影片類別：".$info[0]["TITLE"]."</p>". $tag_info . " <p>影片長度：".$duration."</p> <p>影片簡介：</p><pre>".$rows["DETAIL"]."</pre>";
 
-//$bookInfo = json_decode(file_get_contents('config/ebooks.json'), true);
-//$video_books = $bookInfo["videoBooks"];
 $video_books = $book_db->getVideoBooks();
-
-//$video_books_for_all = array (
-//    104062201 => array("【特色單位-陌生開發】教戰手冊", 104062201),
-//    105053003 => array("【產險理賠小幫手-強制汽車責任保險】教戰手冊", 105053003),
-//    105110101 => array("【產險理賠小幫手-汽機車竊盜險】教戰手冊", 105110102),
-//    106032901 => array("【退休規劃議題】教戰手冊", 106032902),
-//    106040701 => array("【XEU XLT】教戰手冊", 106040702)
-//);
-$video_books_for_all = $book_db->getTechBooks();
-$video_books_pres = $book_db->getPresBooks();
+$video_books_for_all = $book_db->getBooksByType(2);
+$video_books_pres = $book_db->getVideoBooks2();
 
 if (array_key_exists($video_id, $video_books_for_all)) {
     $id1 = $video_books_for_all[$video_id][1];
@@ -91,9 +81,12 @@ if (array_key_exists($video_id, $video_books_for_all)) {
 
 if (array_key_exists($video_id, $video_books_pres)) {
     $id1 = $video_books_pres[$video_id][1];
+    $id2 = $video_books_pres[$video_id][2];
     $url1 = __URL_PREFIX__."ajax/main/book.php?id=$id1&sid=".session_id();
+    $url2 = __URL_PREFIX__."ajax/main/book.php?id=$id2&sid=".session_id();
     $metadata .= "<br/>";
     $metadata .= '<img src="images/film_index/film_index_download.png" style="width:107px ; cursor:pointer;" onclick="parent.openURL(\'' . $url1. '\');" />';
+    $metadata .= '<img src="images/film_index/film_index_bookdownload.png" style="width:107px ; cursor:pointer;" onclick="parent.openURL(\'' . $url2. '\');" />';
 }
 
 if (array_key_exists($video_id, $video_books)) {
@@ -104,8 +97,6 @@ if (array_key_exists($video_id, $video_books)) {
     $id2 = $video_books[$video_id][2];
 
     $metadata .= "<br/>";
-    //$url1 = __URL_PREFIX__."ajax/main/book.php?id=103031201&sid=".session_id();
-    //$url2 = __URL_PREFIX__."ajax/main/book.php?id=103031202&sid=".session_id();
     $url1 = __URL_PREFIX__."ajax/main/book.php?id=$id1&sid=".session_id();
     $url2 = __URL_PREFIX__."ajax/main/book.php?id=$id2&sid=".session_id();
     $metadata .= '<img src="images/film_index/film_index_wordbook.png" style="width:107px ; cursor:pointer;" onclick="parent.openURL(\'' . $url1. '\');" />';

@@ -44,6 +44,10 @@ if (isset($_POST)) {
         case "PRES_BOOK":
             $bookIndex = 3;
             break;
+
+        case "DOWN_BOOK":
+            $bookIndex = 4;
+            break;
     }
 
     if ((($_FILES["BookFile"]["type"] == "application/pdf")) && in_array($extension, $allowedExts)) {

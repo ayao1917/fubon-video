@@ -30,15 +30,18 @@ $word_id = $video_book['WORD_BOOK'];
 $guide_id = $video_book['GUIDE_BOOK'];
 $tech_id = $video_book['TECH_BOOK'];
 $pres_id = $video_book['PRES_BOOK'];
+$down_id = $video_book['DOWN_BOOK'];
 $word_file = __FDATA_PATH__."/books/$word_id.pdf";
 $guide_file = __FDATA_PATH__."/books/$guide_id.pdf";
 $tech_file = __FDATA_PATH__."/books/$tech_id.pdf";
 $pres_file = __FDATA_PATH__."/books/$pres_id.pdf";
+$down_file = __FDATA_PATH__."/books/$down_id.pdf";
 
 $content1 = "目前無檔案";
 $content2 = "目前無檔案";
 $content3 = "目前無檔案";
 $content4 = "目前無檔案";
+$content5 = "目前無檔案";
 
 if (file_exists($word_file)) {
     $book = $db->loadBook($word_id);
@@ -58,6 +61,11 @@ if (file_exists($tech_file)) {
 if (file_exists($pres_file)) {
     $book = $db->loadBook($pres_id);
     $content4 = $book['TITLE'];
+}
+
+if (file_exists($down_file)) {
+    $book = $db->loadBook($down_id);
+    $content5 = $book['TITLE'];
 }
 
 ?>
@@ -113,7 +121,7 @@ if (file_exists($pres_file)) {
         <input type="radio" name="radio-1" id="radio-2" onclick="onChangeType(1)" <?php if ($book_type == 1) echo "checked"?>>
         <label for="radio-3">教戰手冊</label>
         <input type="radio" name="radio-1" id="radio-3" onclick="onChangeType(2)" <?php if ($book_type == 2) echo "checked"?>>
-        <label for="radio-4">簡報</label>
+        <label for="radio-4">簡報+文稿</label>
         <input type="radio" name="radio-1" id="radio-4" onclick="onChangeType(3)" <?php if ($book_type == 3) echo "checked"?>>
     </fieldset>
 
@@ -153,8 +161,8 @@ if (file_exists($pres_file)) {
                 </form>
             </td>
         </tr>
-        <tr class="type3"><td>簡報</td></tr>
-        <tr class="type3"><td><div id="output4"><?php echo $content4; ?></div></td></tr>
+        <tr class="type3"><td>簡報</td><td>文稿</td></tr>
+        <tr class="type3"><td><div id="output4"><?php echo $content4; ?></div></td><td><div id="output5"><?php echo $content5; ?></div></td></tr>
         <tr class="type3">
             <td>
                 <form action="ajax/Z-0/processuploadbook.php" method="post" enctype="multipart/form-data" id="UploadForm4">
@@ -162,6 +170,14 @@ if (file_exists($pres_file)) {
                     <input name="id" type="hidden" value="<?php echo $video_id ?>" />
                     <input name="target" type="hidden" value="PRES_BOOK" />
                     <input type="submit" id="SubmitButton4" value="開始上傳簡報" />
+                </form>
+            </td>
+            <td>
+                <form action="ajax/Z-0/processuploadbook.php" method="post" enctype="multipart/form-data" id="UploadForm5">
+                    <input name="BookFile" type="file" />
+                    <input name="id" type="hidden" value="<?php echo $video_id ?>" />
+                    <input name="target" type="hidden" value="DOWN_BOOK" />
+                    <input type="submit" id="SubmitButton5" value="開始上傳文稿" />
                 </form>
             </td>
         </tr>

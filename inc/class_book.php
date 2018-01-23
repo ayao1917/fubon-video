@@ -87,9 +87,11 @@ class Book{
             $new_data['WORD_BOOK'] = isset($data['WORD_BOOK']) ? $data['WORD_BOOK'] : $row['WORD_BOOK'];
             $new_data['GUIDE_BOOK'] = isset($data['GUIDE_BOOK']) ? $data['GUIDE_BOOK'] : $row['GUIDE_BOOK'];
             $new_data['TECH_BOOK'] = isset($data['TECH_BOOK']) ? $data['TECH_BOOK'] : $row['TECH_BOOK'];
+            $new_data['PRES_BOOK'] = isset($data['PRES_BOOK']) ? $data['PRES_BOOK'] : $row['PRES_BOOK'];
+            $new_data['DOWN_BOOK'] = isset($data['DOWN_BOOK']) ? $data['DOWN_BOOK'] : $row['DOWN_BOOK'];
         }
 
-        $sth = MainDB::getConnection()->prepare('INSERT OR REPLACE INTO VIDEO_BOOK (ID, TITLE, TYPE, WORD_BOOK, GUIDE_BOOK, TECH_BOOK) VALUES (:ID, :TITLE, :TYPE, :WORD_BOOK, :GUIDE_BOOK, :TECH_BOOK)');
+        $sth = MainDB::getConnection()->prepare('INSERT OR REPLACE INTO VIDEO_BOOK (ID, TITLE, TYPE, WORD_BOOK, GUIDE_BOOK, TECH_BOOK, PRES_BOOK, DOWN_BOOK) VALUES (:ID, :TITLE, :TYPE, :WORD_BOOK, :GUIDE_BOOK, :TECH_BOOK, :PRES_BOOK, :DOWN_BOOK)');
         $sth->execute((array) $new_data);
     }
 
@@ -123,6 +125,18 @@ class Book{
         return $result;
     }
 
+    public function getVideoBooks2() {
+        $result = array();
+        $sql = "SELECT * FROM VIDEO_BOOK WHERE TYPE = 3";
+        $sth = MainDB::getConnection()->prepare($sql);
+        $sth->execute();
+        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($rows as $item) {
+            $result[$item['ID']] = array($item['TITLE'], $item['PRES_BOOK'], $item['DOWN_BOOK']);
+        }
+        return $result;
+    }
+
     public function getBookNames() {
         $result = array();
         $sql = "SELECT * FROM BOOK";
@@ -135,22 +149,9 @@ class Book{
         return $result;
     }
 
-    public function getTechBooks() {
+    public function getBooksByType($type) {
         $result = array();
-        $sql = "SELECT VIDEO_BOOK.ID AS ID, BOOK.TITLE AS TITLE, BOOK.ID AS BID FROM VIDEO_BOOK LEFT JOIN BOOK ON VIDEO_BOOK.TECH_BOOK=BOOK.ID WHERE VIDEO_BOOK.TYPE = 2";
-
-        $sth = MainDB::getConnection()->prepare($sql);
-        $sth->execute();
-        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($rows as $item) {
-            $result[$item['ID']] = array($item['TITLE'], $item['BID']);
-        }
-        return $result;
-    }
-
-    public function getPresBooks() {
-        $result = array();
-        $sql = "SELECT VIDEO_BOOK.ID AS ID, BOOK.TITLE AS TITLE, BOOK.ID AS BID FROM VIDEO_BOOK LEFT JOIN BOOK ON VIDEO_BOOK.PRES_BOOK=BOOK.ID WHERE VIDEO_BOOK.TYPE = 3";
+        $sql = "SELECT VIDEO_BOOK.ID AS ID, BOOK.TITLE AS TITLE, BOOK.ID AS BID FROM VIDEO_BOOK LEFT JOIN BOOK ON VIDEO_BOOK.TECH_BOOK=BOOK.ID WHERE VIDEO_BOOK.TYPE = ".$type;
 
         $sth = MainDB::getConnection()->prepare($sql);
         $sth->execute();

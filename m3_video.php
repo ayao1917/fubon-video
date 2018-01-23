@@ -84,21 +84,12 @@ function main() {
 
         $book_db = new Book();
         $book_db->init();
-//        $bookInfo = json_decode(file_get_contents('config/ebooks.json'), true);
-//        $video_books = $bookInfo["videoBooks"];
         $video_books = $book_db->getVideoBooks();
 
         $book_info = array();
 
-//        $video_books_for_all = array (
-//            104062201 => array("【特色單位-陌生開發】教戰手冊", 104062201),
-//            105053003 => array("【產險理賠小幫手-強制汽車責任保險】教戰手冊", 105053003),
-//            105110101 => array("【產險理賠小幫手-汽機車竊盜險】教戰手冊", 105110102),
-//            106032901 => array("【退休規劃議題】教戰手冊", 106032902),
-//            106040701 => array("【XEU XLT】教戰手冊", 106040702)
-//        );
-        $video_books_for_all = $book_db->getTechBooks();
-        $video_books_pres = $book_db->getPresBooks();
+        $video_books_for_all = $book_db->getBooksByType(2);
+        $video_books_pres = $book_db->getVideoBooks2();
 
         if (array_key_exists($video_id, $video_books_for_all)) {
             $id1 = $video_books_for_all[$video_id][1];
@@ -117,6 +108,7 @@ function main() {
 
         if (array_key_exists($video_id, $video_books_pres)) {
             $id1 = $video_books_pres[$video_id][1];
+            $id2 = $video_books_pres[$video_id][2];
 
             $book1 = array();
             $book1["id"] = $id1;
@@ -125,6 +117,12 @@ function main() {
 
             $books = array();
             array_push($books, $book1);
+
+            $book2 = array();
+            $book2["id"] = $id2;
+            $book2["img"] = "images/film_index/film_index_bookdownload.png";
+            $book2["url"] = __URL_PREFIX__."ajax/main/book.php?id=$id2&sid=".session_id();
+            array_push($books, $book2);
 
             $book_info["name"] = $video_books_pres[$video_id][0];
             $book_info["list"] = $books;
