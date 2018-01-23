@@ -1,3 +1,4 @@
+# folders
 .DS_Store
 .idea/
 backup/
@@ -10,11 +11,33 @@ lecture/
 test/
 player/
 Vanin/
+js/js/*
+css/css/*
+images/downloads/
+images/lecture/
+images/images/
+images/phone.orig/
+images/022*
+js/t/
+
+# sigle file
+batch
+books.allow
+files
+data.20140312.0
+images/png
+l
+
+# file name include
 *.zip
 *.php.*
 *.html.*
 *.js.*
+*.js_*
 *.css.*
 *.pdf
 *.txt
+*bak*
+*tmp*
 qr*
+DATA*

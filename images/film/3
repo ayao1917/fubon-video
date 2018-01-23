@@ -1,0 +1,6 @@
+convert -resize 107x35 film_banner_downloads_normal.png	film_banner_downloads_normal.png
+convert -resize 107x35 film_banner_downloads_press.png	film_banner_downloads_press.png
+convert -resize 107x35 film_banner_hd_normal.png	film_banner_hd_normal.png
+convert -resize 107x35 film_banner_hd_press.png	film_banner_hd_press.png
+convert -resize 107x35 film_banner_sd_normal.png	film_banner_sd_normal.png
+convert -resize 107x35 film_banner_sd_press.png	film_banner_sd_press.png
