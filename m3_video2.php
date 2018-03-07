@@ -88,7 +88,7 @@ function main() {
         $book_db->init();
 
         $video_books_for_all = $book_db->getBooksByType(2);
-        $video_books_pres = $book_db->getBooksByType(3);
+        $video_books_pres = $book_db->getVideoBooks2();
 
         if (array_key_exists($video_id, $video_books_for_all)) {
             $id1 = $video_books_for_all[$video_id][1];
