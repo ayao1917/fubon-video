@@ -890,6 +890,8 @@ display:inline-block; margin: 1px 10px;
             var idleInterval;
 	    $(document).ready(function() {
 
+            showMessage('重大通知：富邦新視界已更新版本，目前版本將於6/15停用，請儘速至行動e市集更新；電腦版APP將停用，請直接進入行動辦公室網頁版使用');
+
                 idleTime = 0;
 
                 idleInterval = setInterval(timerIncrement, 1000);
@@ -2570,8 +2572,8 @@ position: { my: "left top", at: "left bottom", of: $("#video_download_button") }
             $("#dialog-confirm").dialog({
                 title: '訊息視窗',
                 resizable: true,
-                height:220,
-                width:250,
+                height:270,
+                width:400,
                 modal: true,
                 buttons: {
                     "確定": function() {

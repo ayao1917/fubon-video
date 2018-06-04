@@ -362,6 +362,8 @@ foreach ($tag_data as $item) {
                 alert("登入已逾時，請重新登入");
                 location.href='http://127.0.0.1:'+serverPort+"/entry.html?true";
             }
+
+            showMessage('重大通知：富邦新視界已更新版本，目前版本將於6/15停用，請儘速至行動e市集更新；電腦版APP將停用，請直接進入行動辦公室網頁版使用');
         });
                 
         $(window).load(function() {
@@ -443,17 +445,19 @@ foreach ($tag_data as $item) {
 
              updateDownloadPage();
             switch (msg_id) {
-
-            case 0: // LOW SPACE
-		msg = "磁碟空間不夠，已暫停下載工作";
-	    }
+                case 0: // LOW SPACE
+                    msg = "磁碟空間不夠，已暫停下載工作";
+                    break;
+                default:
+                    msg = msg_id;
+            }
 
 //            alert(msg);
             $("#dialog-confirm").attr('title', '訊息視窗').html(msg);
             $("#dialog-confirm").dialog({
                   resizable: false,
-                  height:220,
-                  width:250,
+                  height:270,
+                  width:400,
                   modal: true,
                   buttons: {
                     "確定": function() {

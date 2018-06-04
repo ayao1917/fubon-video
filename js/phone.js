@@ -204,6 +204,8 @@ $(document).ready(function() {
             idleTime = 0; 
             idleInterval = setInterval(timerIncrement, 1000);
 
+    showMessage('重大通知：富邦新視界已更新版本，目前版本將於6/15停用，請儘速至行動e市集更新；電腦版APP將停用，請直接進入行動辦公室網頁版使用');
+
             function timerIncrement() {
                 idleTime++;
 
@@ -2339,6 +2341,9 @@ function showMessage(msg_id) {
     switch (msg_id) {
         case 0: // LOW SPACE
             msg = "磁碟空間不夠，已暫停下載工作";
+            break;
+        default:
+            msg = msg_id;
     }
 
 //        buttons: [{id: 0, label: '確定', val: 'Y', class: 'btn-success'}], 
