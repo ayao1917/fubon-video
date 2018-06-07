@@ -342,6 +342,8 @@ foreach ($tag_data as $item) {
         }
 
         $(document).ready(function(){
+            showMessage('重大通知：富邦新視界已更新版本，目前版本將於6/15停用，請儘速至行動e市集更新；電腦版APP將停用，請直接進入行動辦公室網頁版使用');
+            
             idleTime = 0;
 
             var idleInterval = setInterval(timerIncrement, 1000);
@@ -362,8 +364,6 @@ foreach ($tag_data as $item) {
                 alert("登入已逾時，請重新登入");
                 location.href='http://127.0.0.1:'+serverPort+"/entry.html?true";
             }
-
-            showMessage('重大通知：富邦新視界已更新版本，目前版本將於6/15停用，請儘速至行動e市集更新；電腦版APP將停用，請直接進入行動辦公室網頁版使用');
         });
                 
         $(window).load(function() {
